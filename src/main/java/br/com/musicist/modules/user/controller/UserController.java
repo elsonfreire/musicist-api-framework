@@ -11,6 +11,10 @@ import br.com.musicist.modules.user.dto.UserUpdateRequest;
 import br.com.musicist.modules.user.dto.UserResponse;
 import br.com.musicist.modules.user.dto.UserStreakResponse;
 import br.com.musicist.modules.user.service.UserService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
 
 @RestController
 @RequestMapping("/users")

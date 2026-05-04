@@ -38,6 +38,7 @@ public class Song {
     private User user;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private LearningStatusType status;
 
     @Column(nullable = false)
