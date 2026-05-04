@@ -4,8 +4,7 @@ package br.com.musicist.modules.friendship.repository;
 import java.util.List;
 import java.util.Optional;
 
-
-import br.com.musicist.common.enums.FriendshipStatusType;
+import br.com.musicist.modules.friendship.enums.FriendshipStatusType;
 import br.com.musicist.modules.friendship.model.Friendship;
 
 import org.springframework.data.jpa.repository.JpaRepository;

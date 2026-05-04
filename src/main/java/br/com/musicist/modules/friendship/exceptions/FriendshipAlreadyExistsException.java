@@ -1,7 +1,8 @@
 package br.com.musicist.modules.friendship.exceptions;
 
-import br.com.musicist.common.enums.FriendshipStatusType;
 import br.com.musicist.common.exceptions.ApiException;
+import br.com.musicist.modules.friendship.enums.FriendshipStatusType;
+
 import org.springframework.http.HttpStatus;
 
 public class FriendshipAlreadyExistsException extends ApiException {

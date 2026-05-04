@@ -1,6 +1,6 @@
 package br.com.musicist.modules.friendship.model;
 
-import br.com.musicist.common.enums.FriendshipStatusType;
+import br.com.musicist.modules.friendship.enums.FriendshipStatusType;
 import br.com.musicist.modules.user.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;

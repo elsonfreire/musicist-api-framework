@@ -6,5 +6,4 @@ public enum InterestType {
     LEARN_TOGETHER, 
     PRODUCE,        
     MAKE_FRIENDS  
-      
 }

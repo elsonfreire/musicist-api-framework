@@ -1,6 +1,6 @@
 package br.com.musicist.modules.friendship.dto;
 
-import br.com.musicist.common.enums.FriendshipStatusType;
+import br.com.musicist.modules.friendship.enums.FriendshipStatusType;
 import br.com.musicist.modules.friendship.model.Friendship;
 import br.com.musicist.modules.user.dto.UserResponse;
 

@@ -1,6 +1,6 @@
 package br.com.musicist.modules.forum.dto;
 
-import br.com.musicist.common.enums.ForumCategoryType;
+import br.com.musicist.modules.forum.enums.ForumCategoryType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

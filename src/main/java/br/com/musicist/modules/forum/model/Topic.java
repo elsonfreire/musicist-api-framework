@@ -3,7 +3,7 @@ package br.com.musicist.modules.forum.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import br.com.musicist.common.enums.ForumCategoryType;
+import br.com.musicist.modules.forum.enums.ForumCategoryType;
 import br.com.musicist.modules.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

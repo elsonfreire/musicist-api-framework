@@ -1,7 +1,7 @@
 package br.com.musicist.modules.friendship.service;
 
-import br.com.musicist.common.enums.FriendshipStatusType;
 import br.com.musicist.modules.friendship.dto.FriendshipResponse;
+import br.com.musicist.modules.friendship.enums.FriendshipStatusType;
 import br.com.musicist.modules.friendship.exceptions.FriendshipAlreadyExistsException;
 import br.com.musicist.modules.friendship.exceptions.FriendshipNotFoundException;
 import br.com.musicist.modules.friendship.exceptions.FriendshipUnauthorizedException;
