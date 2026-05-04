@@ -41,4 +41,11 @@ public class SongController {
       @AuthenticationPrincipal User currentUser) {
     return ResponseEntity.ok().body(songService.updateSongStatus(id, dto.status(), currentUser));
   }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(
+      @PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+    songService.delete(id, currentUser);
+    return ResponseEntity.noContent().build();
+  }
 }

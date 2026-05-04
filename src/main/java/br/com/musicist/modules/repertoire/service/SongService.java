@@ -45,4 +45,10 @@ public class SongService {
 
     return new SongResponse(songRepository.save(song));
   }
+
+  public void delete(Long id, User user) {
+    Song song =
+        songRepository.findByIdAndUser(id, user).orElseThrow(() -> new SongNotFoundException());
+    songRepository.delete(song);
+  }
 }
