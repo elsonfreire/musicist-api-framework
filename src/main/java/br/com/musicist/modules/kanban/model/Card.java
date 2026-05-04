@@ -2,7 +2,8 @@ package br.com.musicist.modules.kanban.model;
 
 import java.time.LocalDateTime;
 
-import br.com.musicist.modules.kanban.enums.CardStatus;
+import br.com.musicist.modules.kanban.enums.CardStatusType;
+import br.com.musicist.modules.kanban.enums.CardDifficultyType;
 import br.com.musicist.modules.user.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,13 +38,17 @@ public class Card {
     private User user;
 
     @Enumerated(EnumType.STRING)
-    private CardStatus status;
+    private CardStatusType status;
 
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
     private String artist;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CardDifficultyType difficulty;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
