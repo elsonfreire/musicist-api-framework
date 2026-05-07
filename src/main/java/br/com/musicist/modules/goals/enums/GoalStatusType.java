@@ -4,5 +4,4 @@ public enum GoalStatusType {
   PENDING,
   COMPLETED,
   REJECTED,
-  EXPIRED
 }
