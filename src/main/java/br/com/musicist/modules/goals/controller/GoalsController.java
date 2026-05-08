@@ -21,7 +21,7 @@ public class GoalsController {
         Client client = new Client.Builder().apiKey(geminiApiKey).build();
 
         String responseLanguage = "PT-BR";
-        String prompt = "I want to learn a musical instrument." 
+        String prompt = "I want to learn a musical instrument."
                 + "Suggest exactly 3 different goals for me that I can complete in one week or less."
                 + "The response should be a string array in JSON format." 
                 + "The content should be in " + responseLanguage; 
@@ -33,7 +33,7 @@ public class GoalsController {
                 null
             );
 
-        return new String(response.text());
+        return response.text();
     }
     
 }
