@@ -106,6 +106,12 @@
 			<artifactId>google-genai</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-core</artifactId>
+			<version>6.0.3</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

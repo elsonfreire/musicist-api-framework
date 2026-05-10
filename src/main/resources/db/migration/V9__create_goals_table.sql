@@ -1,4 +1,4 @@
-CREATE TYPE goal_status_type AS ENUM ('pending', 'completed', 'rejected');
+CREATE TYPE goal_status_type AS ENUM ('pending', 'completed', 'rejected', 'expired');
 
 CREATE TABLE goals (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
