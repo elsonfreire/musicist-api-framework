@@ -1,5 +1,6 @@
 package br.com.musicist.modules.goals.controller;
 
+import br.com.musicist.modules.goals.service.GeminiService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,27 +26,9 @@ public class GoalController {
     @Autowired
     private GoalService goalService;
     
-    @Value("${gemini.api-key}")
-    private String geminiApiKey;
-    
     @GetMapping("/generate")
-    public String generateGoals() {
-        Client client = new Client.Builder().apiKey(geminiApiKey).build();
-
-        String responseLanguage = "PT-BR";
-        String prompt = "I want to learn a musical instrument."
-                + "Suggest exactly 3 different goals for me that I can complete in one week or less."
-                + "The response should be a string array in JSON format." 
-                + "The content should be in " + responseLanguage; 
-
-        GenerateContentResponse response = 
-            client.models.generateContent(
-                "gemini-3-flash-preview", 
-                prompt,
-                null
-            );
-
-        return response.text();
+    public ResponseEntity<List<GoalResponse>> generateGoals(@AuthenticationPrincipal User currentUser) {
+       return ResponseEntity.ok(goalService.generateGoals(currentUser));
     }
 
     @GetMapping
