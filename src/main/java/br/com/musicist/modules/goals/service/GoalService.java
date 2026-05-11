@@ -3,6 +3,9 @@ package br.com.musicist.modules.goals.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.musicist.modules.goals.enums.GoalStatusType;
+import br.com.musicist.modules.goals.exceptions.ActiveGoalsException;
+import br.com.musicist.modules.goals.model.Goal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +17,38 @@ import br.com.musicist.modules.user.model.User;
 public class GoalService {
     @Autowired
     private GoalRepository goalRepository;
+
+    @Autowired
+    private GeminiService geminiService;
     
     public List<GoalResponse> findAllPendingByUser(User user) {
         return goalRepository.findAllPendingByUser(user)
             .stream()
             .map(goal -> new GoalResponse(goal))
             .collect(Collectors.toList());
+    }
+
+    public List<GoalResponse> generateGoals(User user) {
+        boolean hasActivePendingGoals = goalRepository
+                .existsByUserAndStatus(user, GoalStatusType.PENDING);
+
+        if (hasActivePendingGoals) {
+            throw new ActiveGoalsException();
+        }
+
+        return generateAndSave(user).stream().map(GoalResponse::new).toList();
+    }
+
+    public List<Goal> generateAndSave(User user) {
+        List<Goal> goals = geminiService.getSuggestGoals(user).stream()
+                .map(title -> {
+                    Goal goal = new Goal();
+                    goal.setUser(user);
+                    goal.setTitle(title);
+                    return goal;
+                })
+                .toList();
+
+        return goalRepository.saveAll(goals);
     }
 }

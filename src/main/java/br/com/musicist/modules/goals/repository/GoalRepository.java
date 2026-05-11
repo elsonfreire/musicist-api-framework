@@ -1,5 +1,6 @@
 package br.com.musicist.modules.goals.repository;
 
+import br.com.musicist.modules.goals.enums.GoalStatusType;
 import br.com.musicist.modules.goals.model.Goal;
 import br.com.musicist.modules.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,6 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
         AND g.status = "PENDING"
     """)
   List<Goal> findAllPendingByUser(User user);
+
+  Boolean existsByUserAndStatus(User user, GoalStatusType status);
 }
