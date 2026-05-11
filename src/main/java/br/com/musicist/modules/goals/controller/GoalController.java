@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,12 @@ public class GoalController {
         return ResponseEntity.ok(goalService.findAllPendingByUser(currentUser));
     }
 
+    @PostMapping("/reset")
+    public ResponseEntity<List<GoalResponse>> resetGoals(@AuthenticationPrincipal User currentUser) {
+        goalService.resetGoals(currentUser);
+        return ResponseEntity.ok(goalService.findAllPendingByUser(currentUser));
+    }
+  
     @PutMapping("/{id}")
     public ResponseEntity<GoalResponse> updateGoal(@PathVariable("id") Long id, @RequestBody GoalUpdateRequest goalUpdateRequest) {
         return ResponseEntity.ok(goalService.update(id, goalUpdateRequest));
