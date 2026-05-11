@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RestController
@@ -33,6 +34,12 @@ public class GoalController {
 
     @GetMapping
     public ResponseEntity<List<GoalResponse>> getAllMyPendingGoals(@AuthenticationPrincipal User currentUser) {
+        return ResponseEntity.ok(goalService.findAllPendingByUser(currentUser));
+    }
+
+    @PostMapping("/reset")
+    public ResponseEntity<List<GoalResponse>> resetGoals(@AuthenticationPrincipal User currentUser) {
+        goalService.resetGoals(currentUser);
         return ResponseEntity.ok(goalService.findAllPendingByUser(currentUser));
     }
 }

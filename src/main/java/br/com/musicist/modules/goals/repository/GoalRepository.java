@@ -1,13 +1,15 @@
 package br.com.musicist.modules.goals.repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
 import br.com.musicist.modules.goals.enums.GoalStatusType;
 import br.com.musicist.modules.goals.model.Goal;
 import br.com.musicist.modules.user.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public interface GoalRepository extends JpaRepository<Goal, Long> {
   List<Goal> findByUserAndCreatedAtAfter(User user, LocalDate after);
@@ -21,4 +23,8 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
   List<Goal> findAllPendingByUser(User user);
 
   Boolean existsByUserAndStatus(User user, GoalStatusType status);
+
+    @Modifying
+    @Query("DELETE FROM Goal g WHERE g.user = :user AND g.status = :status")
+    void deleteByUserAndStatus(User user, GoalStatusType status);
 }
