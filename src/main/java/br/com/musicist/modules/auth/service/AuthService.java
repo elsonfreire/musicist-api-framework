@@ -1,6 +1,6 @@
 package br.com.musicist.modules.auth.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,43 +16,42 @@ import br.com.musicist.modules.user.model.User;
 import br.com.musicist.modules.user.repository.UserRepository;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
-    @Autowired
-    private UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+  private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private TokenService tokenService;
-    
-    public LoginResponse login(LoginRequest loginRequestDto) {
-        User user = userRepository.findByEmail(loginRequestDto.email())
-            .orElseThrow(() -> new UserNotFoundException());
-        
-        if(!passwordEncoder.matches(loginRequestDto.password(), user.getPasswordHash())) {
-            throw new WrongPasswordException();
-        }
+  private final TokenService tokenService;
 
-        var token = tokenService.generateToken(user);
+  public LoginResponse login(LoginRequest loginRequestDto) {
+    User user =
+        userRepository.findByEmail(loginRequestDto.email()).orElseThrow(UserNotFoundException::new);
 
-        return new LoginResponse(token);
+    if (!passwordEncoder.matches(loginRequestDto.password(), user.getPasswordHash())) {
+      throw new WrongPasswordException();
     }
 
-    public RegisterResponse register(RegisterRequest registerRequestDto) {
-        String encryptedPassword = passwordEncoder.encode(registerRequestDto.password());
-        
-        if(userRepository.findByEmail(registerRequestDto.email()).isPresent()) {
-            throw new UserAlreadyExistsException("email");
-        }
+    var token = tokenService.generateToken(user);
 
-        if(userRepository.findByUsername(registerRequestDto.username()).isPresent()) {
-            throw new UserAlreadyExistsException("username");
-        }
+    return new LoginResponse(token);
+  }
 
-        User newUser = new User(registerRequestDto.email(), registerRequestDto.username(), encryptedPassword);
-        User user = userRepository.save(newUser);
+  public RegisterResponse register(RegisterRequest registerRequestDto) {
+    String encryptedPassword = passwordEncoder.encode(registerRequestDto.password());
 
-        return new RegisterResponse(user.getEmail(), user.getUsername());
+    if (userRepository.findByEmail(registerRequestDto.email()).isPresent()) {
+      throw new UserAlreadyExistsException("email");
     }
+
+    if (userRepository.findByUsername(registerRequestDto.username()).isPresent()) {
+      throw new UserAlreadyExistsException("username");
+    }
+
+    User newUser =
+        new User(registerRequestDto.email(), registerRequestDto.username(), encryptedPassword);
+    User user = userRepository.save(newUser);
+
+    return new RegisterResponse(user.getEmail(), user.getUsername());
+  }
 }

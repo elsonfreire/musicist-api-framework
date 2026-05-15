@@ -11,64 +11,67 @@ import br.com.musicist.modules.user.dto.UserResponse;
 import br.com.musicist.modules.user.model.User;
 import br.com.musicist.modules.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class FriendshipService {
-    @Autowired
-    private FriendshipRepository friendshipRepository;
-    @Autowired
-    private UserRepository userRepository;
+  private final FriendshipRepository friendshipRepository;
 
-    public void sendRequest(Long requesterId, Long receiverId) {
-        if (requesterId.equals(receiverId))
-            throw new IllegalArgumentException("Cannot add yourself");
+  private final UserRepository userRepository;
 
-        friendshipRepository.findBetween(requesterId, receiverId).ifPresent(f -> {
-            throw new FriendshipAlreadyExistsException(f.getStatus());
-        });
+  public void sendRequest(Long requesterId, Long receiverId) {
+    if (requesterId.equals(receiverId)) throw new IllegalArgumentException("Cannot add yourself");
 
-        User requester = userRepository.findById(requesterId).orElseThrow();
-        User addressee = userRepository.findById(receiverId).orElseThrow();
+    friendshipRepository
+        .findBetween(requesterId, receiverId)
+        .ifPresent(
+            f -> {
+              throw new FriendshipAlreadyExistsException(f.getStatus());
+            });
 
-        Friendship friendship = new Friendship();
-        friendship.setRequester(requester);
-        friendship.setReceiver(addressee);
-        friendshipRepository.save(friendship);
-    }
+    User requester = userRepository.findById(requesterId).orElseThrow();
+    User addressee = userRepository.findById(receiverId).orElseThrow();
 
-    public void acceptRequest(Long friendshipId, Long currentUserId) {
-        Friendship friendship = friendshipRepository.findById(friendshipId).orElseThrow();
+    Friendship friendship = new Friendship();
+    friendship.setRequester(requester);
+    friendship.setReceiver(addressee);
+    friendshipRepository.save(friendship);
+  }
 
-        if (!friendship.getReceiver().getId().equals(currentUserId))
-            throw new FriendshipUnauthorizedException();
+  public void acceptRequest(Long friendshipId, Long currentUserId) {
+    Friendship friendship = friendshipRepository.findById(friendshipId).orElseThrow();
 
-        friendship.setStatus(FriendshipStatusType.ACCEPTED);
-    }
+    if (!friendship.getReceiver().getId().equals(currentUserId))
+      throw new FriendshipUnauthorizedException();
 
-    public void removeFriend(Long userId, Long friendId) {
-        Friendship friendship = friendshipRepository.findBetween(userId, friendId)
-                .orElseThrow(FriendshipNotFoundException::new);
-        friendshipRepository.delete(friendship);
-    }
+    friendship.setStatus(FriendshipStatusType.ACCEPTED);
+  }
 
-    public List<UserResponse> getFriends(Long userId) {
-        return friendshipRepository.findAcceptedFriendships(userId).stream()
-                .map(f -> f.getRequester().getId().equals(userId)
-                        ? f.getReceiver()
-                        : f.getRequester())
-                .map(UserResponse::new)
-                .toList();
-    }
+  public void removeFriend(Long userId, Long friendId) {
+    Friendship friendship =
+        friendshipRepository
+            .findBetween(userId, friendId)
+            .orElseThrow(FriendshipNotFoundException::new);
+    friendshipRepository.delete(friendship);
+  }
 
-    public List<FriendshipResponse> getPendingRequests(Long userId) {
-        return friendshipRepository.findByReceiverIdAndStatus(userId, FriendshipStatusType.PENDING)
-                .stream()
-                .map(FriendshipResponse::from)
-                .toList();
-    }
+  public List<UserResponse> getFriends(Long userId) {
+    return friendshipRepository.findAcceptedFriendships(userId).stream()
+        .map(f -> f.getRequester().getId().equals(userId) ? f.getReceiver() : f.getRequester())
+        .map(UserResponse::new)
+        .toList();
+  }
+
+  public List<FriendshipResponse> getPendingRequests(Long userId) {
+    return friendshipRepository
+        .findByReceiverIdAndStatus(userId, FriendshipStatusType.PENDING)
+        .stream()
+        .map(FriendshipResponse::from)
+        .toList();
+  }
 }

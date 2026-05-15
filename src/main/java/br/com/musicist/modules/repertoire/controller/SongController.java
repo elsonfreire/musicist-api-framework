@@ -3,6 +3,7 @@ package br.com.musicist.modules.repertoire.controller;
 import br.com.musicist.modules.repertoire.dto.SongRequest;
 import br.com.musicist.modules.repertoire.dto.UpdateStatusSongRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +15,13 @@ import br.com.musicist.modules.user.model.User;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @RestController
 @RequestMapping("/repertoire")
+@RequiredArgsConstructor
 public class SongController {
-  @Autowired SongService songService;
+  private final SongService songService;
 
   @GetMapping
   public Map<LearningStatusType, List<SongResponse>> getSongsByStatus(

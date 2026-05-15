@@ -37,61 +37,61 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(unique=true, nullable=false)
-    private String email;
-    
-    @Column(unique=true, nullable=false)
-    private String username;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable=false)
-    @JsonIgnore
-    private String passwordHash;
+  @Column(unique = true, nullable = false)
+  private String email;
 
-    @Enumerated(EnumType.STRING)
-    private InstrumentType instrument;
+  @Column(unique = true, nullable = false)
+  private String username;
 
-    private String bio;
+  @Column(nullable = false)
+  @JsonIgnore
+  private String passwordHash;
 
-    @Enumerated(EnumType.STRING)
-    private LevelType level;
+  @Enumerated(EnumType.STRING)
+  private InstrumentType instrument;
 
-    private String city;
+  private String bio;
 
-    private String state;
+  @Enumerated(EnumType.STRING)
+  private LevelType level;
 
-    @Enumerated(EnumType.STRING)
-    private MusicGenreType favoriteGenre;
+  private String city;
 
-    @ElementCollection(targetClass = InterestType.class)
-    @CollectionTable(name = "user_interests", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "interest")
-    private List<InterestType> interests = new ArrayList<>();
+  private String state;
 
-    private Integer currentStreak = 0;
+  @Enumerated(EnumType.STRING)
+  private MusicGenreType favoriteGenre;
 
-    private Integer longestStreak = 0;
+  @ElementCollection(targetClass = InterestType.class)
+  @CollectionTable(name = "user_interests", joinColumns = @JoinColumn(name = "user_id"))
+  @Enumerated(EnumType.STRING)
+  @Column(name = "interest")
+  private List<InterestType> interests = new ArrayList<>();
 
-    private LocalDateTime lastPracticeDate;
+  private Integer currentStreak = 0;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+  private Integer longestStreak = 0;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PracticeSession> practiceSessions = new ArrayList<>();
+  private LocalDateTime lastPracticeDate;
 
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-    }
+  @Column(nullable = false, updatable = false)
+  private LocalDateTime createdAt;
 
-    public User(String email, String username, String passwordHash) {
-        this.email = email;
-        this.username = username;
-        this.passwordHash = passwordHash;
-    }
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<PracticeSession> practiceSessions = new ArrayList<>();
+
+  @PrePersist
+  public void prePersist() {
+    this.createdAt = LocalDateTime.now();
+  }
+
+  public User(String email, String username, String passwordHash) {
+    this.email = email;
+    this.username = username;
+    this.passwordHash = passwordHash;
+  }
 }

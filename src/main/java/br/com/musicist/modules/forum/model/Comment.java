@@ -25,32 +25,32 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "comments")
 public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false)
-    private String content;
+  @Column(nullable = false)
+  private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", nullable = false)
-    private User author;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "author_id", nullable = false)
+  private User author;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "topic_id", nullable = false)
-    private Topic topic;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "topic_id", nullable = false)
+  private Topic topic;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+  @Column(nullable = false, updatable = false)
+  private LocalDateTime createdAt;
 
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-    }
+  @PrePersist
+  public void prePersist() {
+    this.createdAt = LocalDateTime.now();
+  }
 
-    public Comment(String content, User author, Topic topic) {
-        this.content = content;
-        this.author = author;
-        this.topic = topic;
-    }
+  public Comment(String content, User author, Topic topic) {
+    this.content = content;
+    this.author = author;
+    this.topic = topic;
+  }
 }

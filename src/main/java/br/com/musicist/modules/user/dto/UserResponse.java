@@ -10,31 +10,29 @@ import br.com.musicist.common.enums.MusicGenreType;
 import br.com.musicist.modules.user.model.User;
 
 public record UserResponse(
-    Long id, 
-    String username, 
-    String email, 
-    String bio,     
+    Long id,
+    String username,
+    String email,
+    String bio,
     LevelType level,
     InstrumentType instrument,
     String city,
     String state,
     MusicGenreType favoriteGenre,
     List<InterestType> interests,
-    LocalDateTime createdAt
-) {
-    public UserResponse(User user) {
-        this(
-            user.getId(), 
-            user.getUsername(), 
-            user.getEmail(), 
-            user.getBio(), 
-            user.getLevel(), 
-            user.getInstrument(),
-            user.getCity(),
-            user.getState(),
-            user.getFavoriteGenre(),
-            user.getInterests(),
-            user.getCreatedAt()
-        );
-    }
+    LocalDateTime createdAt) {
+  public UserResponse(User user) {
+    this(
+        user.getId(),
+        user.getUsername(),
+        user.getEmail(),
+        user.getBio(),
+        user.getLevel(),
+        user.getInstrument(),
+        user.getCity(),
+        user.getState(),
+        user.getFavoriteGenre(),
+        user.getInterests(),
+        user.getCreatedAt());
+  }
 }

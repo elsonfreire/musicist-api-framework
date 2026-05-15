@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import br.com.musicist.modules.repertoire.dto.SongRequest;
 import br.com.musicist.modules.repertoire.exceptions.SongNotFoundException;
 import br.com.musicist.modules.repertoire.model.Song;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import br.com.musicist.modules.repertoire.dto.SongResponse;
@@ -16,15 +16,15 @@ import br.com.musicist.modules.repertoire.repository.SongRepository;
 import br.com.musicist.modules.user.model.User;
 
 @Service
+@RequiredArgsConstructor
 public class SongService {
-  @Autowired SongRepository songRepository;
+  private final SongRepository songRepository;
 
   public Map<LearningStatusType, List<SongResponse>> findAllByUser(User user) {
     return songRepository.findAllByUser(user).stream()
         .collect(
             Collectors.groupingBy(
-                song -> song.getStatus(),
-                Collectors.mapping(SongResponse::new, Collectors.toList())));
+                Song::getStatus, Collectors.mapping(SongResponse::new, Collectors.toList())));
   }
 
   public SongResponse addSong(SongRequest requestDto, User user) {
@@ -39,16 +39,14 @@ public class SongService {
   }
 
   public SongResponse updateSongStatus(Long id, LearningStatusType status, User user) {
-    Song song =
-        songRepository.findByIdAndUser(id, user).orElseThrow(() -> new SongNotFoundException());
+    Song song = songRepository.findByIdAndUser(id, user).orElseThrow(SongNotFoundException::new);
     song.setStatus((status));
 
     return new SongResponse(songRepository.save(song));
   }
 
   public void delete(Long id, User user) {
-    Song song =
-        songRepository.findByIdAndUser(id, user).orElseThrow(() -> new SongNotFoundException());
+    Song song = songRepository.findByIdAndUser(id, user).orElseThrow(SongNotFoundException::new);
     songRepository.delete(song);
   }
 }

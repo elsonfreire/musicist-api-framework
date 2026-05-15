@@ -2,7 +2,7 @@ package br.com.musicist.modules.recommendations.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +15,14 @@ import br.com.musicist.modules.user.model.User;
 
 @RestController
 @RequestMapping("/connections")
+@RequiredArgsConstructor
 public class RecommendationController {
 
-    @Autowired
-    private RecommendationService recommendationService;
+  private final RecommendationService recommendationService;
 
-    @GetMapping("/recommendations")
-    public ResponseEntity<List<RecommendationResponse>> getRecommendations(
-            @AuthenticationPrincipal User currentUser) {
-        return ResponseEntity.ok(recommendationService.getRecommendations(currentUser));
-    }
+  @GetMapping("/recommendations")
+  public ResponseEntity<List<RecommendationResponse>> getRecommendations(
+      @AuthenticationPrincipal User currentUser) {
+    return ResponseEntity.ok(recommendationService.getRecommendations(currentUser));
+  }
 }

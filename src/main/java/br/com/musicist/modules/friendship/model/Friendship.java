@@ -13,29 +13,31 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "friendships", uniqueConstraints = @UniqueConstraint(columnNames = {"requester_id", "receiver_id"}))
+@Table(
+    name = "friendships",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"requester_id", "receiver_id"}))
 public class Friendship {
-    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
-    @JoinColumn(name = "requester_id", nullable = false)
-    private User requester;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "requester_id", nullable = false)
+  private User requester;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id", nullable = false)
-    private User receiver;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "receiver_id", nullable = false)
+  private User receiver;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private FriendshipStatusType status = FriendshipStatusType.PENDING;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private FriendshipStatusType status = FriendshipStatusType.PENDING;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+  @Column(nullable = false, updatable = false)
+  private LocalDateTime createdAt;
 
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-    }
+  @PrePersist
+  public void prePersist() {
+    this.createdAt = LocalDateTime.now();
+  }
 }

@@ -1,6 +1,5 @@
 package br.com.musicist.modules.goals.repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,17 +9,14 @@ import br.com.musicist.modules.goals.enums.GoalStatusType;
 import br.com.musicist.modules.goals.model.Goal;
 import br.com.musicist.modules.user.model.User;
 
-
 public interface GoalRepository extends JpaRepository<Goal, Long> {
   @Query(
-    """
+      """
       SELECT g FROM Goal g
       WHERE g.user = :user
       AND g.status = :status
   """)
   List<Goal> findAllPendingByUser(User user, GoalStatusType status);
-  
-  List<Goal> findByUserAndCreatedAtAfter(User user, LocalDate after);
 
   Boolean existsByUserAndStatus(User user, GoalStatusType status);
 
@@ -29,7 +25,8 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
   void deleteByUserAndStatus(User user, GoalStatusType status);
 
   @Modifying
-  @Query("""
+  @Query(
+      """
     UPDATE Goal g
     SET g.status = 'EXPIRED'
     WHERE g.status = 'PENDING'

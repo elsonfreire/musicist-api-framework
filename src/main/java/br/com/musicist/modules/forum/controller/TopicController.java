@@ -4,7 +4,8 @@ import br.com.musicist.modules.forum.service.CommentService;
 import java.util.List;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,55 +24,42 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
-
 @RestController
 @RequestMapping("/forum/topics")
+@RequiredArgsConstructor
 public class TopicController {
-    @Autowired
-    private TopicService topicService;
-    
-    @Autowired
-    private CommentService commentService;
+  private final TopicService topicService;
 
-    TopicController(CommentService commentService) {
-        this.commentService = commentService;
-    }
-    
-    @GetMapping
-    public ResponseEntity<List<TopicResponse>> getTopics() {
-        return ResponseEntity.ok().body(topicService.findAll());
-    }
+  private final CommentService commentService;
 
-    @PostMapping
-    public ResponseEntity<TopicResponse> create(
-        @RequestBody @Valid TopicRequest topicRequest,
-        @AuthenticationPrincipal User currentUser
-    ) {
-        return ResponseEntity.status(201).body(topicService.create(topicRequest, currentUser));
-    }
+  @GetMapping
+  public ResponseEntity<List<TopicResponse>> getTopics() {
+    return ResponseEntity.ok().body(topicService.findAll());
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(
-        @PathVariable("id") Long id,
-        @AuthenticationPrincipal User currentUser
-    ) {
-        topicService.delete(id, currentUser);
-        return ResponseEntity.noContent().build();
-    }
- 
-    @GetMapping("/{id}/comments")
-    public ResponseEntity<List<CommentResponse>> getTopicComments(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(commentService.findAllByTopicId(id));
-    }
+  @PostMapping
+  public ResponseEntity<TopicResponse> create(
+      @RequestBody @Valid TopicRequest topicRequest, @AuthenticationPrincipal User currentUser) {
+    return ResponseEntity.status(201).body(topicService.create(topicRequest, currentUser));
+  }
 
-    @PostMapping("/{id}/comments")
-    public ResponseEntity<CommentResponse> createTopicComment(
-        @PathVariable("id") Long id,
-        @RequestBody @Valid CommentRequest commentRequest,
-        @AuthenticationPrincipal User currentUser
-    ) {
-        return ResponseEntity.status(201).body(commentService.create(commentRequest, id, currentUser));
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(
+      @PathVariable("id") Long id, @AuthenticationPrincipal User currentUser) {
+    topicService.delete(id, currentUser);
+    return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping("/{id}/comments")
+  public ResponseEntity<List<CommentResponse>> getTopicComments(@PathVariable("id") Long id) {
+    return ResponseEntity.ok(commentService.findAllByTopicId(id));
+  }
+
+  @PostMapping("/{id}/comments")
+  public ResponseEntity<CommentResponse> createTopicComment(
+      @PathVariable("id") Long id,
+      @RequestBody @Valid CommentRequest commentRequest,
+      @AuthenticationPrincipal User currentUser) {
+    return ResponseEntity.status(201).body(commentService.create(commentRequest, id, currentUser));
+  }
 }

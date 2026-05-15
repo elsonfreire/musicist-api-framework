@@ -1,4 +1,3 @@
 package br.com.musicist.modules.auth.dto;
 
-public record LoginResponse (String token) {
-}
+public record LoginResponse(String token) {}

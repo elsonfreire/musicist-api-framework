@@ -3,7 +3,7 @@ package br.com.musicist.modules.practice_session.controller;
 import java.util.List;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,37 +21,37 @@ import br.com.musicist.modules.user.model.User;
 
 @RestController
 @RequestMapping("/sessions")
+@RequiredArgsConstructor
 public class PracticeSessionController {
 
-    @Autowired
-    private PracticeSessionService practiceSessionService;
+  private final PracticeSessionService practiceSessionService;
 
-    @PostMapping
-    public ResponseEntity<PracticeSessionResponse> create(
-            @RequestBody @Valid PracticeSessionRequest dto,
-            @AuthenticationPrincipal User currentUser) {
-        return ResponseEntity.status(201).body(practiceSessionService.createPracticeSession(dto, currentUser));
-    }
+  @PostMapping
+  public ResponseEntity<PracticeSessionResponse> create(
+      @RequestBody @Valid PracticeSessionRequest dto, @AuthenticationPrincipal User currentUser) {
+    return ResponseEntity.status(201)
+        .body(practiceSessionService.createPracticeSession(dto, currentUser));
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(
-            @PathVariable("id") Long id,
-            @AuthenticationPrincipal User currentUser) {
-        
-        practiceSessionService.deletePracticeSession(id, currentUser);
-        
-        return ResponseEntity.noContent().build();
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(
+      @PathVariable("id") Long id, @AuthenticationPrincipal User currentUser) {
 
-    @GetMapping
-    public ResponseEntity<List<PracticeSessionResponse>> getAllMySessions(
-            @AuthenticationPrincipal User currentUser) {
-        return ResponseEntity.ok(practiceSessionService.getPracticeSessionsByUserId(currentUser.getId()));
-    }
+    practiceSessionService.deletePracticeSession(id, currentUser);
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<PracticeSessionResponse>> getAllUserSessions(@PathVariable("userId") Long userId) {
-        return ResponseEntity.ok(practiceSessionService.getPracticeSessionsByUserId(userId));
-    }
+    return ResponseEntity.noContent().build();
+  }
 
+  @GetMapping
+  public ResponseEntity<List<PracticeSessionResponse>> getAllMySessions(
+      @AuthenticationPrincipal User currentUser) {
+    return ResponseEntity.ok(
+        practiceSessionService.getPracticeSessionsByUserId(currentUser.getId()));
+  }
+
+  @GetMapping("/{userId}")
+  public ResponseEntity<List<PracticeSessionResponse>> getAllUserSessions(
+      @PathVariable("userId") Long userId) {
+    return ResponseEntity.ok(practiceSessionService.getPracticeSessionsByUserId(userId));
+  }
 }

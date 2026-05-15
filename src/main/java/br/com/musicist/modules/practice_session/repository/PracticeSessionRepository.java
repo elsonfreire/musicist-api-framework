@@ -9,5 +9,5 @@ import br.com.musicist.modules.practice_session.model.PracticeSession;
 
 @Repository
 public interface PracticeSessionRepository extends JpaRepository<PracticeSession, Long> {
-    List<PracticeSession> findByUserId(Long userId);
+  List<PracticeSession> findByUserId(Long userId);
 }

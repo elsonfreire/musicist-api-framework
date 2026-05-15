@@ -8,13 +8,8 @@ import jakarta.validation.constraints.Size;
 
 public record CommentRequest(
     Long id,
-
     @NotBlank(message = "Content is required")
-    @Size(max = 400, message = "Content should have a maximum of 400 characters")
-    String content,
-
+        @Size(max = 400, message = "Content should have a maximum of 400 characters")
+        String content,
     UserResponse author,
-    LocalDateTime createdAt
-) {
-
-}
+    LocalDateTime createdAt) {}

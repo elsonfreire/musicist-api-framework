@@ -12,9 +12,14 @@ public record PracticeSessionResponse(
     InstrumentType instrument,
     Integer durationMinutes,
     String notes,
-    LocalDateTime createdAt
-){
-    public PracticeSessionResponse(PracticeSession practiceSession) {
-        this(practiceSession.getId(), practiceSession.getDate(), practiceSession.getInstrument(), practiceSession.getDurationMinutes(), practiceSession.getNotes(), practiceSession.getCreatedAt());
-    } 
+    LocalDateTime createdAt) {
+  public PracticeSessionResponse(PracticeSession practiceSession) {
+    this(
+        practiceSession.getId(),
+        practiceSession.getDate(),
+        practiceSession.getInstrument(),
+        practiceSession.getDurationMinutes(),
+        practiceSession.getNotes(),
+        practiceSession.getCreatedAt());
+  }
 }

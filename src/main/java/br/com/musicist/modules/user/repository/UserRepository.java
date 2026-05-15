@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.musicist.modules.user.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
-    Optional<User> findByUsername(String username);
-    @EntityGraph(attributePaths = "interests")
-    List<User> findByIdNotIn(List<Long> ids);
+  Optional<User> findByEmail(String email);
+
+  Optional<User> findByUsername(String username);
+
+  @EntityGraph(attributePaths = "interests")
+  List<User> findByIdNotIn(List<Long> ids);
 }
