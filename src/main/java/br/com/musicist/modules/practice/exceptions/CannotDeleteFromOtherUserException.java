@@ -1,4 +1,4 @@
-package br.com.musicist.modules.practice_session.exceptions;
+package br.com.musicist.modules.practice.exceptions;
 
 import org.springframework.http.HttpStatus;
 

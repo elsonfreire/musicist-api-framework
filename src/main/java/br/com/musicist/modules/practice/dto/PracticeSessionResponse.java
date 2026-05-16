@@ -1,11 +1,11 @@
-package br.com.musicist.modules.practice_session.dto;
+package br.com.musicist.modules.practice.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import br.com.musicist.common.enums.InstrumentType;
-import br.com.musicist.modules.practice_session.model.PracticeSession;
+import br.com.musicist.modules.practice.model.PracticeSession;
 
 public record PracticeSessionResponse(
     UUID id,

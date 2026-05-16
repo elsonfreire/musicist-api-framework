@@ -11,7 +11,7 @@ import br.com.musicist.common.enums.InstrumentType;
 import br.com.musicist.common.enums.InterestType;
 import br.com.musicist.common.enums.LevelType;
 import br.com.musicist.common.enums.MusicGenreType;
-import br.com.musicist.modules.practice_session.model.PracticeSession;
+import br.com.musicist.modules.practice.model.PracticeSession;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;

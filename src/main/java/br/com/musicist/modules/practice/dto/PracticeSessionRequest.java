@@ -1,4 +1,4 @@
-package br.com.musicist.modules.practice_session.dto;
+package br.com.musicist.modules.practice.dto;
 
 import java.time.LocalDate;
 

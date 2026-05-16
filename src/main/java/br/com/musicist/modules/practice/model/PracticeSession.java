@@ -1,4 +1,4 @@
-package br.com.musicist.modules.practice_session.model;
+package br.com.musicist.modules.practice.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;

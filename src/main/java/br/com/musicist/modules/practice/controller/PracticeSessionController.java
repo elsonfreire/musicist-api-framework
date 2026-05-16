@@ -1,4 +1,4 @@
-package br.com.musicist.modules.practice_session.controller;
+package br.com.musicist.modules.practice.controller;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.musicist.modules.practice_session.dto.PracticeSessionRequest;
-import br.com.musicist.modules.practice_session.dto.PracticeSessionResponse;
-import br.com.musicist.modules.practice_session.service.PracticeSessionService;
+import br.com.musicist.modules.practice.dto.PracticeSessionRequest;
+import br.com.musicist.modules.practice.dto.PracticeSessionResponse;
+import br.com.musicist.modules.practice.service.PracticeSessionService;
 import br.com.musicist.modules.user.model.User;
 
 @RestController
