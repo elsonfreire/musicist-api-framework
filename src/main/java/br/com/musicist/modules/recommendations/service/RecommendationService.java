@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
+import br.com.musicist.modules.user.exceptions.AuthenticatedUserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public class RecommendationService {
     User currentUser =
         userRepository
             .findById(authenticatedUser.getId())
-            .orElseThrow(() -> new RuntimeException("Usuário logado não encontrado no banco"));
+            .orElseThrow(AuthenticatedUserNotFoundException::new);
 
     List<UUID> connectedIds = friendshipRepository.findConnectedUserIds(currentUser.getId());
 

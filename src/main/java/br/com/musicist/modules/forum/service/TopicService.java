@@ -22,7 +22,7 @@ public class TopicService {
   public Topic findById(UUID topicId) {
     return topicRepository
         .findById(topicId)
-        .orElseThrow(() -> new RuntimeException("Topic does not exist"));
+        .orElseThrow(TopicNotFoundException::new);
   }
 
   public List<TopicResponse> findAll() {
