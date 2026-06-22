@@ -24,10 +24,9 @@ public class RecommendationService {
 
   private final FriendshipRepository friendshipRepository;
 
-  private final RecommendationStrategy recommendationStrategy;
-
   @Transactional(readOnly = true)
   public List<RecommendationResponse> getRecommendations(User authenticatedUser) {
+
     User currentUser =
         userRepository
             .findById(authenticatedUser.getId())
@@ -41,12 +40,40 @@ public class RecommendationService {
     return userRepository.findByIdNotIn(idsToExclude).stream()
         .map(
             candidate -> {
-              int score = recommendationStrategy.calculateScore(currentUser, candidate);
+              int score = calculateScore(currentUser, candidate);
               return new RecommendationResponse(new UserResponse(candidate), score);
             })
         .filter(rec -> rec.matchScore() > 0)
         .sorted(Comparator.comparing(RecommendationResponse::matchScore).reversed())
         .limit(10)
         .toList();
+  }
+
+  private int calculateScore(User me, User other) {
+    int score = 0;
+
+    if (me.getCity() != null && me.getCity().equalsIgnoreCase(other.getCity())) {
+      score += 5;
+    } else if (me.getState() != null && me.getState().equalsIgnoreCase(other.getState())) {
+      score += 3;
+    }
+
+    if (me.getInterests() != null
+        && !me.getInterests().isEmpty()
+        && other.getInterests() != null
+        && !other.getInterests().isEmpty()) {
+
+      long common = me.getInterests().stream().filter(other.getInterests()::contains).count();
+
+      int minInterests = Math.min(me.getInterests().size(), other.getInterests().size());
+      double matchPercentage = (double) common / minInterests;
+      score += (int) Math.round(matchPercentage * 3);
+    }
+
+    if (me.getFavoriteGenre() != null && me.getFavoriteGenre() == other.getFavoriteGenre()) {
+      score += 2;
+    }
+
+    return score;
   }
 }
