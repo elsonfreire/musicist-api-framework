@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GeminiService {
+public abstract class GoalSuggestionTemplate {
   @Value("${gemini.api-key}")
   private String geminiApiKey;
 
-  public List<String> getSuggestGoals(User user) {
+  public final List<String> suggestGoals(User user) {
     try {
       Client client = new Client.Builder().apiKey(geminiApiKey).build();
 
@@ -34,25 +34,7 @@ public class GeminiService {
     }
   }
 
-  private String buildPrompt(User user) {
-    StringBuilder context = new StringBuilder("Generate exactly 3 weekly musical goals");
-
-    if (user.getInstrument() != null)
-      context.append(" for a ").append(user.getInstrument()).append(" player");
-    if (user.getLevel() != null) context.append(", level ").append(user.getLevel());
-    if (user.getFavoriteGenre() != null)
-      context.append(", favorite genre ").append(user.getFavoriteGenre());
-
-    context.append(
-        """
-            .
-            Each goal must be specific and achievable within 7 days.
-            Reply ONLY with a JSON array of strings. Example: ["Goal 1", "Goal 2", "Goal 3"]
-            No explanations, no markdown, just the JSON. Language: PT-BR.
-        """);
-
-    return context.toString();
-  }
+  protected abstract String buildPrompt(User user);
 
   private List<String> parseGoals(String json) {
     try {

@@ -24,7 +24,7 @@ import br.com.musicist.modules.user.model.User;
 public class GoalService {
   private final GoalRepository goalRepository;
 
-  private final GeminiService geminiService;
+  private final GoalSuggestionTemplate goalSuggestion;
 
   public List<GoalResponse> findPendingByUserOrGenerate(User user) {
     List<Goal> pendingGoals = goalRepository.findAllPendingByUser(user, GoalStatusType.PENDING);
@@ -69,7 +69,7 @@ public class GoalService {
 
   public List<Goal> generateAndSave(User user) {
     List<Goal> goals =
-        geminiService.getSuggestGoals(user).stream()
+        goalSuggestion.suggestGoals(user).stream()
             .map(
                 title -> {
                   Goal goal = new Goal();
