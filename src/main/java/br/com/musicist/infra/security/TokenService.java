@@ -1,6 +1,6 @@
 package br.com.musicist.infra.security;
 
-import br.com.musicist.modules.user.model.User;
+import br.com.musicist.modules.framework.user.model.User;
 
 public interface TokenService {
   public String generateToken(User user);

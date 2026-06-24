@@ -11,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.musicist.common.exceptions.ApiException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice

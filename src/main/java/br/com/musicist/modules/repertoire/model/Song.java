@@ -3,9 +3,9 @@ package br.com.musicist.modules.repertoire.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import br.com.musicist.modules.framework.user.model.User;
 import br.com.musicist.modules.repertoire.enums.DifficultyType;
 import br.com.musicist.modules.repertoire.enums.LearningStatusType;
-import br.com.musicist.modules.user.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

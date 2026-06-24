@@ -7,14 +7,14 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import br.com.musicist.modules.framework.user.model.User;
+import br.com.musicist.modules.framework.user.service.UserService;
 import br.com.musicist.modules.practice.dto.PracticeSessionRequest;
 import br.com.musicist.modules.practice.dto.PracticeSessionResponse;
 import br.com.musicist.modules.practice.exceptions.CannotDeleteFromOtherUserException;
 import br.com.musicist.modules.practice.exceptions.PracticeSessionNotFoundException;
 import br.com.musicist.modules.practice.model.PracticeSession;
 import br.com.musicist.modules.practice.repository.PracticeSessionRepository;
-import br.com.musicist.modules.user.model.User;
-import br.com.musicist.modules.user.service.UserService;
 
 @Service
 @RequiredArgsConstructor

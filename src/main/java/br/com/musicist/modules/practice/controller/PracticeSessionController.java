@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.musicist.modules.framework.user.model.User;
 import br.com.musicist.modules.practice.dto.PracticeSessionRequest;
 import br.com.musicist.modules.practice.dto.PracticeSessionResponse;
 import br.com.musicist.modules.practice.service.PracticeSessionService;
-import br.com.musicist.modules.user.model.User;
 
 @RestController
 @RequestMapping("/sessions")

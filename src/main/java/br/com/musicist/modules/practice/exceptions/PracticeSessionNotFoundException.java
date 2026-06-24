@@ -2,7 +2,7 @@ package br.com.musicist.modules.practice.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-import br.com.musicist.common.exceptions.ApiException;
+import br.com.musicist.infra.advice.ApiException;
 
 public class PracticeSessionNotFoundException extends ApiException {
   public PracticeSessionNotFoundException() {

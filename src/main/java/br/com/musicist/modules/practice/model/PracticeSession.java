@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import br.com.musicist.common.enums.InstrumentType;
-import br.com.musicist.modules.user.model.User;
+import br.com.musicist.modules.framework.user.model.User;
+import br.com.musicist.modules.musicist.enums.InstrumentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

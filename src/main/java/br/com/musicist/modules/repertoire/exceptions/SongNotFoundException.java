@@ -1,7 +1,8 @@
 package br.com.musicist.modules.repertoire.exceptions;
 
-import br.com.musicist.common.exceptions.ApiException;
 import org.springframework.http.HttpStatus;
+
+import br.com.musicist.infra.advice.ApiException;
 
 public class SongNotFoundException extends ApiException {
   public SongNotFoundException() {

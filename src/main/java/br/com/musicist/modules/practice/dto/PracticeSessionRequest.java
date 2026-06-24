@@ -2,7 +2,7 @@ package br.com.musicist.modules.practice.dto;
 
 import java.time.LocalDate;
 
-import br.com.musicist.common.enums.InstrumentType;
+import br.com.musicist.modules.musicist.enums.InstrumentType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

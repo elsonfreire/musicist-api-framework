@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import br.com.musicist.modules.framework.user.model.User;
 import br.com.musicist.modules.repertoire.dto.SongRequest;
 import br.com.musicist.modules.repertoire.exceptions.SongNotFoundException;
 import br.com.musicist.modules.repertoire.model.Song;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import br.com.musicist.modules.repertoire.dto.SongResponse;
 import br.com.musicist.modules.repertoire.enums.LearningStatusType;
 import br.com.musicist.modules.repertoire.repository.SongRepository;
-import br.com.musicist.modules.user.model.User;
 
 @Service
 @RequiredArgsConstructor

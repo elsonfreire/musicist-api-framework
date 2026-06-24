@@ -1,5 +1,6 @@
 package br.com.musicist.modules.repertoire.controller;
 
+import br.com.musicist.modules.framework.user.model.User;
 import br.com.musicist.modules.repertoire.dto.SongRequest;
 import br.com.musicist.modules.repertoire.dto.UpdateStatusSongRequest;
 import jakarta.validation.Valid;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import br.com.musicist.modules.repertoire.dto.SongResponse;
 import br.com.musicist.modules.repertoire.enums.LearningStatusType;
 import br.com.musicist.modules.repertoire.service.SongService;
-import br.com.musicist.modules.user.model.User;
 
 import java.util.List;
 import java.util.Map;

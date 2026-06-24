@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 import br.com.musicist.infra.security.exceptions.JwtTokenException;
+import br.com.musicist.modules.framework.user.model.User;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-
-import br.com.musicist.modules.user.model.User;
 
 @Service
 @Primary

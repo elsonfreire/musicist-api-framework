@@ -9,8 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.musicist.modules.user.model.User;
-import br.com.musicist.modules.user.repository.UserRepository;
+import br.com.musicist.modules.framework.user.model.User;
+import br.com.musicist.modules.framework.user.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
