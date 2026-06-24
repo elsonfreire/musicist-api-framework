@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import br.com.musicist.modules.user.dto.UserUpdateRequest;
@@ -13,6 +14,7 @@ import br.com.musicist.modules.user.exceptions.UserNotFoundException;
 import br.com.musicist.modules.user.exceptions.UsernameAlreadyInUseException;
 import br.com.musicist.modules.user.dto.UserResponse;
 import br.com.musicist.modules.user.dto.UserStreakResponse;
+import br.com.musicist.modules.user.model.MusicProfile;
 import br.com.musicist.modules.user.model.User;
 import br.com.musicist.modules.user.repository.UserRepository;
 
@@ -38,18 +40,20 @@ public class UserService {
       validateUsername(userUpdated.username());
       user.setUsername(userUpdated.username());
     }
-
-    if (userUpdated.instrument() != null) user.setInstrument(userUpdated.instrument());
     if (userUpdated.bio() != null) user.setBio(userUpdated.bio());
-    if (userUpdated.level() != null) user.setLevel(userUpdated.level());
     if (userUpdated.city() != null) user.setCity(userUpdated.city());
     if (userUpdated.state() != null) user.setState(userUpdated.state());
-    if (userUpdated.favoriteGenre() != null) user.setFavoriteGenre(userUpdated.favoriteGenre());
-    if (userUpdated.interests() != null) {
-      user.getInterests().clear();
-      user.getInterests().addAll(userUpdated.interests());
-    }
 
+    MusicProfile musicProfile = user.getMusicProfile();
+
+    if (userUpdated.level() != null) musicProfile.setLevel(userUpdated.level());
+    if (userUpdated.instrument() != null) musicProfile.setInstrument(userUpdated.instrument());
+    if (userUpdated.favoriteGenre() != null) musicProfile.setFavoriteGenre(userUpdated.favoriteGenre());
+    if (userUpdated.interests() != null) {
+      musicProfile.getInterests().clear();
+      musicProfile.getInterests().addAll(userUpdated.interests());
+    }
+    
     User newUser = userRepository.save(user);
 
     return new UserResponse(newUser);

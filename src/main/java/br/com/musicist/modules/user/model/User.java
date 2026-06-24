@@ -7,20 +7,11 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.musicist.common.enums.InstrumentType;
-import br.com.musicist.common.enums.InterestType;
-import br.com.musicist.common.enums.LevelType;
-import br.com.musicist.common.enums.MusicGenreType;
 import br.com.musicist.modules.practice.model.PracticeSession;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
@@ -52,26 +43,11 @@ public class User {
   @JsonIgnore
   private String passwordHash;
 
-  @Enumerated(EnumType.STRING)
-  private InstrumentType instrument;
-
   private String bio;
-
-  @Enumerated(EnumType.STRING)
-  private LevelType level;
 
   private String city;
 
   private String state;
-
-  @Enumerated(EnumType.STRING)
-  private MusicGenreType favoriteGenre;
-
-  @ElementCollection(targetClass = InterestType.class)
-  @CollectionTable(name = "user_interests", joinColumns = @JoinColumn(name = "user_id"))
-  @Enumerated(EnumType.STRING)
-  @Column(name = "interest")
-  private List<InterestType> interests = new ArrayList<>();
 
   private Integer currentStreak = 0;
 

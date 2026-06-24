@@ -2,13 +2,14 @@ package br.com.musicist.modules.recommendations.service;
 
 import org.springframework.stereotype.Component;
 
+import br.com.musicist.modules.user.model.MusicProfile;
 import br.com.musicist.modules.user.model.User;
 
 @Component
 public class MusicRecommendationStrategy implements RecommendationStrategy {
     
-    @Override
-    public int calculateScore(User me, User other) {
+  @Override
+  public int calculateScore(User me, User other) {
     int score = 0;
 
     if (me.getCity() != null && me.getCity().equalsIgnoreCase(other.getCity())) {
@@ -17,19 +18,22 @@ public class MusicRecommendationStrategy implements RecommendationStrategy {
       score += 3;
     }
 
-    if (me.getInterests() != null
-        && !me.getInterests().isEmpty()
-        && other.getInterests() != null
-        && !other.getInterests().isEmpty()) {
+    MusicProfile musicProfile = me.getMusicProfile();
+    MusicProfile otherMusicProfile = other.getMusicProfile();
 
-      long common = me.getInterests().stream().filter(other.getInterests()::contains).count();
+    if (musicProfile.getInterests() != null
+        && !musicProfile.getInterests().isEmpty()
+        && otherMusicProfile.getInterests() != null
+        && !otherMusicProfile.getInterests().isEmpty()) {
 
-      int minInterests = Math.min(me.getInterests().size(), other.getInterests().size());
+      long common = musicProfile.getInterests().stream().filter(otherMusicProfile.getInterests()::contains).count();
+
+      int minInterests = Math.min(musicProfile.getInterests().size(), otherMusicProfile.getInterests().size());
       double matchPercentage = (double) common / minInterests;
       score += (int) Math.round(matchPercentage * 3);
     }
 
-    if (me.getFavoriteGenre() != null && me.getFavoriteGenre() == other.getFavoriteGenre()) {
+    if (musicProfile.getFavoriteGenre() != null && musicProfile.getFavoriteGenre() == otherMusicProfile.getFavoriteGenre()) {
       score += 2;
     }
 

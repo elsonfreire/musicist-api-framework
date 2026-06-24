@@ -28,12 +28,12 @@ public record UserResponse(
         user.getUsername(),
         user.getEmail(),
         user.getBio(),
-        user.getLevel(),
-        user.getInstrument(),
+        user.getMusicProfile().getLevel(),
+        user.getMusicProfile().getInstrument(),
         user.getCity(),
         user.getState(),
-        user.getFavoriteGenre(),
-        user.getInterests(),
-        user.getCreatedAt());
+        user.getMusicProfile().getFavoriteGenre(),
+        user.getMusicProfile().getInterests(),
+        user.getMusicProfile().getCreatedAt());
   }
 }

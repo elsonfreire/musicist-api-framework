@@ -2,6 +2,7 @@ package br.com.musicist.modules.goals.service;
 
 import org.springframework.stereotype.Component;
 
+import br.com.musicist.modules.user.model.MusicProfile;
 import br.com.musicist.modules.user.model.User;
 
 @Component
@@ -11,11 +12,13 @@ public class MusicGoalSuggestionTemplate extends GoalSuggestionTemplate {
     public String buildPrompt(User user) {
         StringBuilder context = new StringBuilder("Generate exactly 3 weekly musical goals");
 
-        if (user.getInstrument() != null)
-        context.append(" for a ").append(user.getInstrument()).append(" player");
-        if (user.getLevel() != null) context.append(", level ").append(user.getLevel());
-        if (user.getFavoriteGenre() != null)
-        context.append(", favorite genre ").append(user.getFavoriteGenre());
+        MusicProfile musicProfile = user.getMusicProfile();
+
+        if (musicProfile.getInstrument() != null)
+        context.append(" for a ").append(musicProfile.getInstrument()).append(" player");
+        if (musicProfile.getLevel() != null) context.append(", level ").append(musicProfile.getLevel());
+        if (musicProfile.getFavoriteGenre() != null)
+        context.append(", favorite genre ").append(musicProfile.getFavoriteGenre());
 
         context.append(
             """

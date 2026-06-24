@@ -12,13 +12,17 @@ import br.com.musicist.modules.auth.dto.RegisterResponse;
 import br.com.musicist.modules.auth.exceptions.UserAlreadyExistsException;
 import br.com.musicist.modules.auth.exceptions.UserNotFoundException;
 import br.com.musicist.modules.auth.exceptions.WrongPasswordException;
+import br.com.musicist.modules.user.model.MusicProfile;
 import br.com.musicist.modules.user.model.User;
+import br.com.musicist.modules.user.repository.MusicProfileRepository;
 import br.com.musicist.modules.user.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
   private final UserRepository userRepository;
+
+  private final MusicProfileRepository musicProfileRepository;
 
   private final BCryptPasswordEncoder passwordEncoder;
 
@@ -51,6 +55,14 @@ public class AuthService {
     User newUser =
         new User(registerRequestDto.email(), registerRequestDto.username(), encryptedPassword);
     User user = userRepository.save(newUser);
+    
+    MusicProfile profile = new MusicProfile();
+    profile.setUser(user);
+
+    musicProfileRepository.save(profile);
+
+    user.setMusicProfile(profile);
+
 
     return new RegisterResponse(user.getEmail(), user.getUsername());
   }
