@@ -34,6 +34,7 @@ public record UserResponse(
         user.getState(),
         user.getMusicProfile().getFavoriteGenre(),
         user.getMusicProfile().getInterests(),
-        user.getMusicProfile().getCreatedAt());
+        user.getCreatedAt()
+      );
   }
 }
