@@ -19,8 +19,8 @@ public class MusicRecommendationStrategy implements RecommendationStrategy {
       score += 3;
     }
 
-    MusicProfile musicProfile = me.getMusicProfile();
-    MusicProfile otherMusicProfile = other.getMusicProfile();
+    MusicProfile musicProfile = (MusicProfile) me.getDomainProfile();
+    MusicProfile otherMusicProfile = (MusicProfile) other.getDomainProfile();
 
     if (musicProfile.getInterests() != null
         && !musicProfile.getInterests().isEmpty()

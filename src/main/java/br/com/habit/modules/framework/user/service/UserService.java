@@ -14,15 +14,17 @@ import br.com.habit.modules.framework.user.dto.UserStreakResponse;
 import br.com.habit.modules.framework.user.dto.UserUpdateRequest;
 import br.com.habit.modules.framework.user.exceptions.UserNotFoundException;
 import br.com.habit.modules.framework.user.exceptions.UsernameAlreadyInUseException;
+import br.com.habit.modules.framework.user.model.DomainProfile;
 import br.com.habit.modules.framework.user.model.User;
 import br.com.habit.modules.framework.user.repository.UserRepository;
-import br.com.habit.modules.musicist.profile.MusicProfile;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
   private final UserRepository userRepository;
+  
+  private final MusicProfileUpdaterStrategy domainProfileUpdater;
 
   public List<UserResponse> findAll() {
     return userRepository.findAll().stream().map(UserResponse::new).toList();
@@ -44,15 +46,8 @@ public class UserService {
     if (userUpdated.city() != null) user.setCity(userUpdated.city());
     if (userUpdated.state() != null) user.setState(userUpdated.state());
 
-    MusicProfile musicProfile = user.getMusicProfile();
-
-    if (userUpdated.level() != null) musicProfile.setLevel(userUpdated.level());
-    if (userUpdated.instrument() != null) musicProfile.setInstrument(userUpdated.instrument());
-    if (userUpdated.favoriteGenre() != null) musicProfile.setFavoriteGenre(userUpdated.favoriteGenre());
-    if (userUpdated.interests() != null) {
-      musicProfile.getInterests().clear();
-      musicProfile.getInterests().addAll(userUpdated.interests());
-    }
+    DomainProfile domainProfile = user.getDomainProfile();
+    domainProfileUpdater.update(domainProfile, userUpdated);
     
     User newUser = userRepository.save(user);
 

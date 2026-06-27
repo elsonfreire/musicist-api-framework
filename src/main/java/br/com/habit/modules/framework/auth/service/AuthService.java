@@ -61,7 +61,7 @@ public class AuthService {
 
     musicProfileRepository.save(profile);
 
-    user.setMusicProfile(profile);
+    user.setDomainProfile(profile);
 
 
     return new RegisterResponse(user.getEmail(), user.getUsername());

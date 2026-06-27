@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.habit.modules.musicist.profile.MusicProfile;
 import br.com.habit.modules.practice.model.PracticeSession;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -61,7 +60,7 @@ public class User {
     cascade = CascadeType.ALL,
     orphanRemoval = true
   )
-  private MusicProfile musicProfile;
+  private DomainProfile domainProfile;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<PracticeSession> practiceSessions = new ArrayList<>();

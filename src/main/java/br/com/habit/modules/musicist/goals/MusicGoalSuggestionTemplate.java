@@ -13,7 +13,7 @@ public class MusicGoalSuggestionTemplate extends GoalSuggestionTemplate {
     public String buildPrompt(User user) {
         StringBuilder context = new StringBuilder("Generate exactly 3 weekly musical goals");
 
-        MusicProfile musicProfile = user.getMusicProfile();
+        MusicProfile musicProfile = (MusicProfile) user.getDomainProfile();
 
         if (musicProfile.getInstrument() != null)
             context.append(" for a ").append(musicProfile.getInstrument()).append(" player");

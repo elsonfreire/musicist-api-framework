@@ -2,10 +2,8 @@ package br.com.habit.modules.musicist.profile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-
-import br.com.habit.modules.framework.user.model.User;
+import br.com.habit.modules.framework.user.model.DomainProfile;
 import br.com.habit.modules.musicist.enums.InstrumentType;
 import br.com.habit.modules.musicist.enums.InterestType;
 import br.com.habit.modules.musicist.enums.LevelType;
@@ -16,11 +14,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,15 +27,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MusicProfile {
-    @Id
-    private UUID id;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
-    private User user;
-
+public class MusicProfile extends DomainProfile {
     @Enumerated(EnumType.STRING)
     private InstrumentType instrument;
 
