@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
 
 import br.com.habit.modules.framework.user.dto.UserResponse;
@@ -15,10 +17,13 @@ import br.com.habit.modules.framework.user.exceptions.UsernameAlreadyInUseExcept
 import br.com.habit.modules.framework.user.model.User;
 import br.com.habit.modules.framework.user.repository.UserRepository;
 
+@Service
 @RequiredArgsConstructor
-public abstract class UserService {
+public class UserService {
 
   private final UserRepository userRepository;
+
+  private final DomainProfileUpdater domainProfileUpdater;
   
   public List<UserResponse> findAll() {
     return userRepository.findAll().stream().map(UserResponse::from).toList();
@@ -40,14 +45,12 @@ public abstract class UserService {
     if (userUpdateRequest.city() != null) user.setCity(userUpdateRequest.city());
     if (userUpdateRequest.state() != null) user.setState(userUpdateRequest.state());
     
-    updateDomainProfile(user, userUpdateRequest);
+    domainProfileUpdater.update(user, userUpdateRequest.domainProfileData());
 
     User newUser = userRepository.save(user);
 
     return UserResponse.from(newUser);
   }
-
-  protected abstract void updateDomainProfile(User user, UserUpdateRequest userUpdateRequest);
 
   private void validateUsername(String username) {
     if (userRepository.findByUsername(username).isPresent()) {
