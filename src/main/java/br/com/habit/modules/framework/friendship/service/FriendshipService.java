@@ -65,7 +65,7 @@ public class FriendshipService {
   public List<UserResponse> getFriends(UUID userId) {
     return friendshipRepository.findAcceptedFriendships(userId).stream()
         .map(f -> f.getRequester().getId().equals(userId) ? f.getReceiver() : f.getRequester())
-        .map(UserResponse::new)
+        .map(UserResponse::from)
         .toList();
   }
 

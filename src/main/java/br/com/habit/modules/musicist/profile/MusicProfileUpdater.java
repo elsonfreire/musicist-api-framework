@@ -1,12 +1,11 @@
-package br.com.habit.modules.framework.user.service;
+package br.com.habit.modules.musicist.profile;
 
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.habit.modules.framework.user.dto.MusicProfileData;
 import br.com.habit.modules.framework.user.model.User;
-import br.com.habit.modules.musicist.profile.MusicProfile;
+import br.com.habit.modules.framework.user.service.DomainProfileUpdater;
 
 @Component
 public class MusicProfileUpdater implements DomainProfileUpdater {

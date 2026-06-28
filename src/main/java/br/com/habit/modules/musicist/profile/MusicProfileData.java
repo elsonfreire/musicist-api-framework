@@ -1,4 +1,4 @@
-package br.com.habit.modules.framework.user.dto;
+package br.com.habit.modules.musicist.profile;
 
 import java.util.List;
 

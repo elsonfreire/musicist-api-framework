@@ -16,8 +16,8 @@ public record FriendshipResponse(
   public static FriendshipResponse from(Friendship f) {
     return new FriendshipResponse(
         f.getId(),
-        new UserResponse(f.getRequester()),
-        new UserResponse(f.getReceiver()),
+        UserResponse.from(f.getRequester()),
+        UserResponse.from(f.getReceiver()),
         f.getStatus(),
         f.getCreatedAt());
   }
