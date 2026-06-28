@@ -9,6 +9,7 @@ import br.com.habit.modules.musicist.enums.InstrumentType;
 import br.com.habit.modules.musicist.enums.InterestType;
 import br.com.habit.modules.musicist.enums.LevelType;
 import br.com.habit.modules.musicist.enums.MusicGenreType;
+import br.com.habit.modules.musicist.profile.MusicProfile;
 
 public record UserResponse(
     UUID id,
@@ -22,18 +23,20 @@ public record UserResponse(
     MusicGenreType favoriteGenre,
     List<InterestType> interests,
     LocalDateTime createdAt) {
-  public UserResponse(User user) {
-    this(
+  public static UserResponse from(User user) {
+    MusicProfile profile = (MusicProfile) user.getDomainProfile();
+    
+    return new UserResponse(
         user.getId(),
         user.getUsername(),
         user.getEmail(),
         user.getBio(),
-        user.getMusicProfile().getLevel(),
-        user.getMusicProfile().getInstrument(),
+        profile.getLevel(),
+        profile.getInstrument(),
         user.getCity(),
         user.getState(),
-        user.getMusicProfile().getFavoriteGenre(),
-        user.getMusicProfile().getInterests(),
+        profile.getFavoriteGenre(),
+        profile.getInterests(),
         user.getCreatedAt()
       );
   }

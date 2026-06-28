@@ -42,7 +42,7 @@ public class RecommendationService {
         .map(
             candidate -> {
               int score = recommendationStrategy.calculateScore(currentUser, candidate);
-              return new RecommendationResponse(new UserResponse(candidate), score);
+              return new RecommendationResponse(UserResponse.from(candidate), score);
             })
         .filter(rec -> rec.matchScore() > 0)
         .sorted(Comparator.comparing(RecommendationResponse::matchScore).reversed())

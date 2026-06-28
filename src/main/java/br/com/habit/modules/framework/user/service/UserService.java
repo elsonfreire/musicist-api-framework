@@ -21,30 +21,30 @@ public abstract class UserService {
   private final UserRepository userRepository;
   
   public List<UserResponse> findAll() {
-    return userRepository.findAll().stream().map(UserResponse::new).toList();
+    return userRepository.findAll().stream().map(UserResponse::from).toList();
   }
 
   public UserResponse findById(UUID id) {
     User user = this.findUserEntityById(id);
-    return new UserResponse(user);
+    return UserResponse.from(user);
   }
 
   public UserResponse update(UUID id, UserUpdateRequest userUpdateRequest) {
     User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
-    if (userUpdateRequest.getUsername() != null) {
-      validateUsername(userUpdateRequest.getUsername());
-      user.setUsername(userUpdateRequest.getUsername());
+    if (userUpdateRequest.username() != null) {
+      validateUsername(userUpdateRequest.username());
+      user.setUsername(userUpdateRequest.username());
     }
-    if (userUpdateRequest.getBio() != null) user.setBio(userUpdateRequest.getBio());
-    if (userUpdateRequest.getCity() != null) user.setCity(userUpdateRequest.getCity());
-    if (userUpdateRequest.getState() != null) user.setState(userUpdateRequest.getState());
+    if (userUpdateRequest.bio() != null) user.setBio(userUpdateRequest.bio());
+    if (userUpdateRequest.city() != null) user.setCity(userUpdateRequest.city());
+    if (userUpdateRequest.state() != null) user.setState(userUpdateRequest.state());
     
     updateDomainProfile(user, userUpdateRequest);
 
     User newUser = userRepository.save(user);
 
-    return new UserResponse(newUser);
+    return UserResponse.from(newUser);
   }
 
   protected abstract void updateDomainProfile(User user, UserUpdateRequest userUpdateRequest);
