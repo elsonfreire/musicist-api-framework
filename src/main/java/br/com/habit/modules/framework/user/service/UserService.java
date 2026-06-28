@@ -7,25 +7,19 @@ import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.stereotype.Service;
-
 import br.com.habit.modules.framework.user.dto.UserResponse;
 import br.com.habit.modules.framework.user.dto.UserStreakResponse;
 import br.com.habit.modules.framework.user.dto.UserUpdateRequest;
 import br.com.habit.modules.framework.user.exceptions.UserNotFoundException;
 import br.com.habit.modules.framework.user.exceptions.UsernameAlreadyInUseException;
-import br.com.habit.modules.framework.user.model.DomainProfile;
 import br.com.habit.modules.framework.user.model.User;
 import br.com.habit.modules.framework.user.repository.UserRepository;
 
-@Service
 @RequiredArgsConstructor
-public class UserService {
+public abstract class UserService {
 
   private final UserRepository userRepository;
   
-  private final MusicProfileUpdaterStrategy domainProfileUpdater;
-
   public List<UserResponse> findAll() {
     return userRepository.findAll().stream().map(UserResponse::new).toList();
   }
@@ -35,24 +29,25 @@ public class UserService {
     return new UserResponse(user);
   }
 
-  public UserResponse update(UUID id, UserUpdateRequest userUpdated) {
+  public UserResponse update(UUID id, UserUpdateRequest userUpdateRequest) {
     User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
-    if (userUpdated.username() != null) {
-      validateUsername(userUpdated.username());
-      user.setUsername(userUpdated.username());
+    if (userUpdateRequest.getUsername() != null) {
+      validateUsername(userUpdateRequest.getUsername());
+      user.setUsername(userUpdateRequest.getUsername());
     }
-    if (userUpdated.bio() != null) user.setBio(userUpdated.bio());
-    if (userUpdated.city() != null) user.setCity(userUpdated.city());
-    if (userUpdated.state() != null) user.setState(userUpdated.state());
-
-    DomainProfile domainProfile = user.getDomainProfile();
-    domainProfileUpdater.update(domainProfile, userUpdated);
+    if (userUpdateRequest.getBio() != null) user.setBio(userUpdateRequest.getBio());
+    if (userUpdateRequest.getCity() != null) user.setCity(userUpdateRequest.getCity());
+    if (userUpdateRequest.getState() != null) user.setState(userUpdateRequest.getState());
     
+    updateDomainProfile(user, userUpdateRequest);
+
     User newUser = userRepository.save(user);
 
     return new UserResponse(newUser);
   }
+
+  protected abstract void updateDomainProfile(User user, UserUpdateRequest userUpdateRequest);
 
   private void validateUsername(String username) {
     if (userRepository.findByUsername(username).isPresent()) {
