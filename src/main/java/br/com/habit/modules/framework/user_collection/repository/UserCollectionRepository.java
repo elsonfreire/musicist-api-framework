@@ -1,9 +1,9 @@
-package br.com.habit.modules.user_collection.repository;
+package br.com.habit.modules.framework.user_collection.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.habit.modules.framework.user.model.User;
-import br.com.habit.modules.user_collection.model.Song;
+import br.com.habit.modules.framework.user_collection.model.Song;
 
 import java.util.List;
 import java.util.Optional;

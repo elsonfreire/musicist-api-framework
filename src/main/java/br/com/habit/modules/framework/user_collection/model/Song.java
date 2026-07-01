@@ -1,4 +1,4 @@
-package br.com.habit.modules.user_collection.model;
+package br.com.habit.modules.framework.user_collection.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -2,7 +2,7 @@ package br.com.habit.modules.musicist.repertoire;
 
 import java.util.UUID;
 
-import br.com.habit.modules.user_collection.model.Song;
+import br.com.habit.modules.framework.user_collection.model.Song;
 
 public record SongResponse(UUID id, String title, String artist, DifficultyType difficulty) {
   public SongResponse(Song song) {

@@ -3,8 +3,8 @@ package br.com.habit.modules.musicist.repertoire;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.habit.modules.user_collection.controller.UserCollectionController;
-import br.com.habit.modules.user_collection.service.UserCollectionService;
+import br.com.habit.modules.framework.user_collection.controller.UserCollectionController;
+import br.com.habit.modules.framework.user_collection.service.UserCollectionService;
 
 
 @RestController

@@ -1,4 +1,4 @@
-package br.com.habit.modules.user_collection.service;
+package br.com.habit.modules.framework.user_collection.service;
 
 import java.util.List;
 import java.util.Map;

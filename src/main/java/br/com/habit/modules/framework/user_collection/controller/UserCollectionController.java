@@ -1,4 +1,4 @@
-package br.com.habit.modules.user_collection.controller;
+package br.com.habit.modules.framework.user_collection.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.habit.modules.framework.user.model.User;
-import br.com.habit.modules.user_collection.service.UserCollectionService;
+import br.com.habit.modules.framework.user_collection.dto.UpdateStatusRequest;
+import br.com.habit.modules.framework.user_collection.service.UserCollectionService;
 import jakarta.validation.Valid;
 
 public abstract class UserCollectionController <TRequest, TResponse, TStatus> {
@@ -35,9 +36,9 @@ public abstract class UserCollectionController <TRequest, TResponse, TStatus> {
     @PatchMapping("/{id}")
     public ResponseEntity<TResponse> updateStatus(
         @PathVariable UUID id, 
-        @RequestBody @Valid TStatus status, 
+        @RequestBody @Valid UpdateStatusRequest<TStatus> updateStatusRequest, 
         @AuthenticationPrincipal User user) {
-        return ResponseEntity.ok().body(service().updateStatus(id, status, user));
+        return ResponseEntity.ok().body(service().updateStatus(id, updateStatusRequest.status(), user));
     }
 
     @DeleteMapping("/{id}")

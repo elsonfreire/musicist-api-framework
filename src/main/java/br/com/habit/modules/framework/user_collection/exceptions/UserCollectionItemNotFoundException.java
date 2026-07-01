@@ -1,4 +1,4 @@
-package br.com.habit.modules.user_collection.exceptions;
+package br.com.habit.modules.framework.user_collection.exceptions;
 
 import org.springframework.http.HttpStatus;
 

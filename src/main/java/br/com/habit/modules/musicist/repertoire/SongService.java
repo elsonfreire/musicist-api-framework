@@ -6,10 +6,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import br.com.habit.modules.framework.user.model.User;
-import br.com.habit.modules.user_collection.exceptions.UserCollectionItemNotFoundException;
-import br.com.habit.modules.user_collection.model.Song;
-import br.com.habit.modules.user_collection.repository.UserCollectionRepository;
-import br.com.habit.modules.user_collection.service.UserCollectionService;
+import br.com.habit.modules.framework.user_collection.exceptions.UserCollectionItemNotFoundException;
+import br.com.habit.modules.framework.user_collection.model.Song;
+import br.com.habit.modules.framework.user_collection.repository.UserCollectionRepository;
+import br.com.habit.modules.framework.user_collection.service.UserCollectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
