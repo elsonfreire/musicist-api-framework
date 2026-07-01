@@ -21,89 +21,91 @@ import br.com.habit.modules.framework.user.repository.UserRepository;
 @RequiredArgsConstructor
 public class UserService {
 
-  private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-  private final DomainProfileUpdater domainProfileUpdater;
-  
-  public List<UserResponse> findAll() {
-    return userRepository.findAll().stream().map(UserResponse::from).toList();
-  }
+    private final DomainProfileUpdater domainProfileUpdater;
 
-  public UserResponse findById(UUID id) {
-    User user = this.findUserEntityById(id);
-    return UserResponse.from(user);
-  }
+    private final UserResponseFactory userResponseFactory;
 
-  public UserResponse update(UUID id, UserUpdateRequest userUpdateRequest) {
-    User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-
-    if (userUpdateRequest.username() != null) {
-      validateUsername(userUpdateRequest.username());
-      user.setUsername(userUpdateRequest.username());
+    public List<UserResponse> findAll() {
+        return userRepository.findAll().stream().map(userResponseFactory::from).toList();
     }
-    if (userUpdateRequest.bio() != null) user.setBio(userUpdateRequest.bio());
-    if (userUpdateRequest.city() != null) user.setCity(userUpdateRequest.city());
-    if (userUpdateRequest.state() != null) user.setState(userUpdateRequest.state());
-    
-    domainProfileUpdater.update(user, userUpdateRequest.domainProfileData());
 
-    User newUser = userRepository.save(user);
-
-    return UserResponse.from(newUser);
-  }
-
-  private void validateUsername(String username) {
-    if (userRepository.findByUsername(username).isPresent()) {
-      throw new UsernameAlreadyInUseException();
+    public UserResponse findById(UUID id) {
+        User user = this.findUserEntityById(id);
+        return userResponseFactory.from(user);
     }
-  }
 
-  public UserStreakResponse getStreak(UUID id) {
-    User user = findUserEntityById(id);
-    return new UserStreakResponse(user.getCurrentStreak(), user.getLongestStreak());
-  }
+    public UserResponse update(UUID id, UserUpdateRequest userUpdateRequest) {
+        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
-  public void incrementStreak(UUID id) {
-    User user = this.findUserEntityById(id);
+        if (userUpdateRequest.username() != null) {
+            validateUsername(userUpdateRequest.username());
+            user.setUsername(userUpdateRequest.username());
+        }
+        if (userUpdateRequest.bio() != null) user.setBio(userUpdateRequest.bio());
+        if (userUpdateRequest.city() != null) user.setCity(userUpdateRequest.city());
+        if (userUpdateRequest.state() != null) user.setState(userUpdateRequest.state());
 
-    if (user.getLastPracticeDate() != null) {
-      LocalDate today = LocalDate.now();
-      LocalDate lastPracticeDay = user.getLastPracticeDate().toLocalDate();
+        domainProfileUpdater.update(user, userUpdateRequest.domainProfileData());
 
-      if (today.isEqual(lastPracticeDay)) {
+        User newUser = userRepository.save(user);
+
+        return userResponseFactory.from(newUser);
+    }
+
+    private void validateUsername(String username) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new UsernameAlreadyInUseException();
+        }
+    }
+
+    public UserStreakResponse getStreak(UUID id) {
+        User user = findUserEntityById(id);
+        return new UserStreakResponse(user.getCurrentStreak(), user.getLongestStreak());
+    }
+
+    public void incrementStreak(UUID id) {
+        User user = this.findUserEntityById(id);
+
+        if (user.getLastPracticeDate() != null) {
+            LocalDate today = LocalDate.now();
+            LocalDate lastPracticeDay = user.getLastPracticeDate().toLocalDate();
+
+            if (today.isEqual(lastPracticeDay)) {
+                user.setLastPracticeDate(LocalDateTime.now());
+                userRepository.save(user);
+                return;
+            }
+        }
+
+        user.setCurrentStreak(user.getCurrentStreak() + 1);
+
+        if (user.getCurrentStreak() > user.getLongestStreak()) {
+            user.setLongestStreak(user.getCurrentStreak());
+        }
+
         user.setLastPracticeDate(LocalDateTime.now());
         userRepository.save(user);
-        return;
-      }
     }
 
-    user.setCurrentStreak(user.getCurrentStreak() + 1);
+    public void resetStreak(UUID id) {
+        User user = this.findUserEntityById(id);
 
-    if (user.getCurrentStreak() > user.getLongestStreak()) {
-      user.setLongestStreak(user.getCurrentStreak());
+        if (user.getLastPracticeDate() == null) {
+            return;
+        }
+
+        LocalDate today = LocalDate.now();
+        LocalDate lastPracticeDay = user.getLastPracticeDate().toLocalDate();
+
+        if (today.isAfter(lastPracticeDay.plusDays(1))) {
+            user.setCurrentStreak(0);
+            userRepository.save(user);
+        }
     }
 
-    user.setLastPracticeDate(LocalDateTime.now());
-    userRepository.save(user);
-  }
-
-  public void resetStreak(UUID id) {
-    User user = this.findUserEntityById(id);
-
-    if (user.getLastPracticeDate() == null) {
-      return;
+    private User findUserEntityById(UUID id) {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
-
-    LocalDate today = LocalDate.now();
-    LocalDate lastPracticeDay = user.getLastPracticeDate().toLocalDate();
-
-    if (today.isAfter(lastPracticeDay.plusDays(1))) {
-      user.setCurrentStreak(0);
-      userRepository.save(user);
-    }
-  }
-
-  private User findUserEntityById(UUID id) {
-    return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-  }
 }
