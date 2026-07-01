@@ -1,11 +1,11 @@
-package br.com.habit.modules.repertoire.model;
+package br.com.habit.modules.user_collection.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import br.com.habit.modules.framework.user.model.User;
-import br.com.habit.modules.repertoire.enums.DifficultyType;
-import br.com.habit.modules.repertoire.enums.LearningStatusType;
+import br.com.habit.modules.musicist.repertoire.DifficultyType;
+import br.com.habit.modules.musicist.repertoire.LearningStatusType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

@@ -1,6 +1,5 @@
-package br.com.habit.modules.repertoire.dto;
+package br.com.habit.modules.musicist.repertoire;
 
-import br.com.habit.modules.repertoire.enums.DifficultyType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
