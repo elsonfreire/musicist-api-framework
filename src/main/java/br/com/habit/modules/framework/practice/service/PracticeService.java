@@ -24,13 +24,13 @@ public class PracticeService {
     private final UserService userService;
     private final List<PracticeStrategy> strategies;
 
-    public List<PracticeResponse> getPracticeSessionsByUserId(UUID userId) {
+    public List<PracticeResponse> getPracticesByUserId(UUID userId) {
         return practiceRepository.findByUserId(userId).stream()
             .map(PracticeResponse::new)
             .collect(Collectors.toList());
     }
 
-    public PracticeResponse createPracticeSession(PracticeRequest request, User user) {
+    public PracticeResponse createPractice(PracticeRequest request, User user) {
         PracticeStrategy strategy = strategies.stream()
             .filter(s -> s.getDomainType().equalsIgnoreCase(request.domain()))
             .findFirst()
@@ -45,7 +45,7 @@ public class PracticeService {
         return new PracticeResponse(savedPractice);
     }
 
-    public void deletePracticeSession(UUID id, User currentUser) {
+    public void deletePractice(UUID id, User currentUser) {
         Practice practice = practiceRepository.findById(id)
             .orElseThrow(PracticeNotFoundException::new);
 

@@ -33,13 +33,13 @@ public class PracticeController {
             @Valid @RequestBody PracticeRequest request,
             @AuthenticationPrincipal User user) {
         
-        PracticeResponse response = practiceService.createPracticeSession(request, user);
+        PracticeResponse response = practiceService.createPractice(request, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<PracticeResponse>> getUserPractices(@PathVariable UUID userId) {
-        return ResponseEntity.ok(practiceService.getPracticeSessionsByUserId(userId));
+        return ResponseEntity.ok(practiceService.getPracticesByUserId(userId));
     }
 
     @DeleteMapping("/{id}")
@@ -47,7 +47,7 @@ public class PracticeController {
             @PathVariable UUID id,
             @AuthenticationPrincipal User user) {
         
-        practiceService.deletePracticeSession(id, user);
+        practiceService.deletePractice(id, user);
         return ResponseEntity.noContent().build();
     }
 }
