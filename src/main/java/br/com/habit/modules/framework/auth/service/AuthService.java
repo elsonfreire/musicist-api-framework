@@ -12,8 +12,10 @@ import br.com.habit.modules.framework.auth.dto.RegisterResponse;
 import br.com.habit.modules.framework.auth.exceptions.UserAlreadyExistsException;
 import br.com.habit.modules.framework.auth.exceptions.UserNotFoundException;
 import br.com.habit.modules.framework.auth.exceptions.WrongPasswordException;
+import br.com.habit.modules.framework.user.model.DomainProfile;
 import br.com.habit.modules.framework.user.model.User;
 import br.com.habit.modules.framework.user.repository.UserRepository;
+import br.com.habit.modules.framework.user.service.DomainProfileFactory;
 import br.com.habit.modules.musicist.profile.MusicProfile;
 import br.com.habit.modules.musicist.profile.MusicProfileRepository;
 
@@ -22,7 +24,7 @@ import br.com.habit.modules.musicist.profile.MusicProfileRepository;
 public class AuthService {
   private final UserRepository userRepository;
 
-  private final MusicProfileRepository musicProfileRepository;
+  private final DomainProfileFactory domainProfileFactory;
 
   private final BCryptPasswordEncoder passwordEncoder;
 
@@ -56,12 +58,11 @@ public class AuthService {
         new User(registerRequestDto.email(), registerRequestDto.username(), encryptedPassword);
     User user = userRepository.save(newUser);
     
-    MusicProfile profile = new MusicProfile();
-    profile.setUser(user);
-
-    musicProfileRepository.save(profile);
-
+    DomainProfile profile = domainProfileFactory.create(user);
+    
     user.setDomainProfile(profile);
+
+    userRepository.save(user);
 
 
     return new RegisterResponse(user.getEmail(), user.getUsername());
