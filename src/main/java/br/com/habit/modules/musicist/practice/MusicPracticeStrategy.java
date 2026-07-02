@@ -30,11 +30,7 @@ public class MusicPracticeStrategy implements PracticeStrategy {
         if (instrument == null) {
             instrument = musicProfile.getInstrument(); 
         }
-
-        if (instrument == null) {
-            throw new IllegalArgumentException("An instrument is required for music practices.");
-        }
-
+        
         return new MusicPractice(
             request.durationMinutes(),
             request.notes(),
