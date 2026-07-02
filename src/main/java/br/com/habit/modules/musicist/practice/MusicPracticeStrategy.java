@@ -1,13 +1,15 @@
 package br.com.habit.modules.musicist.practice;
 
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.habit.modules.framework.practice.dto.PracticeRequest;
 import br.com.habit.modules.framework.practice.model.Practice;
 import br.com.habit.modules.framework.practice.service.PracticeStrategy;
 import br.com.habit.modules.framework.user.model.User;
 import br.com.habit.modules.musicist.enums.InstrumentType;
 import br.com.habit.modules.musicist.profile.MusicProfile;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Component;
 
 @Component
 public class MusicPracticeStrategy implements PracticeStrategy {
@@ -35,7 +37,7 @@ public class MusicPracticeStrategy implements PracticeStrategy {
         }
 
         if (instrument == null) {
-            throw new IllegalArgumentException("O instrumento é obrigatório para práticas musicais.");
+            throw new IllegalArgumentException("A instrument is required for music practices.");
         }
 
         return new MusicPractice(
