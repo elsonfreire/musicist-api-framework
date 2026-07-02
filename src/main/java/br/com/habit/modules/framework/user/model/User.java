@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.habit.modules.practice.model.PracticeSession;
+import br.com.habit.modules.framework.practice.model.PracticeSession;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
