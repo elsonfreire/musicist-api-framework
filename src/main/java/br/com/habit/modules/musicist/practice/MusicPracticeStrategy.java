@@ -17,14 +17,9 @@ public class MusicPracticeStrategy implements PracticeStrategy {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String getDomainType() {
-        return "MUSIC"; 
-    }
-
-    @Override
     public Practice createPracticeEntity(PracticeRequest request, User user) {
         
-        MusicProfile musicProfile = (MusicProfile) user.getDomainProfile();
+        MusicProfile musicProfile = (MusicProfile) user.getDomainProfile();    
         MusicPracticeDomainData musicData = objectMapper.convertValue(
             request.domainData(), 
             MusicPracticeDomainData.class
@@ -37,7 +32,7 @@ public class MusicPracticeStrategy implements PracticeStrategy {
         }
 
         if (instrument == null) {
-            throw new IllegalArgumentException("A instrument is required for music practices.");
+            throw new IllegalArgumentException("An instrument is required for music practices.");
         }
 
         return new MusicPractice(
