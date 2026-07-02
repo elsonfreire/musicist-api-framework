@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.habit.modules.framework.practice.model.PracticeSession;
+import br.com.habit.modules.framework.practice.model.Practice;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -63,7 +63,7 @@ public class User {
   private DomainProfile domainProfile;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<PracticeSession> practiceSessions = new ArrayList<>();
+  private List<Practice> practices = new ArrayList<>();
 
   @Column(nullable = false, updatable = false)
   private LocalDateTime createdAt;
