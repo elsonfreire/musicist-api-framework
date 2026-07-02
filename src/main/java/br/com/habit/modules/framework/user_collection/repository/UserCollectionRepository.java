@@ -1,16 +1,18 @@
 package br.com.habit.modules.framework.user_collection.repository;
 
+import br.com.habit.modules.framework.user_collection.model.UserCollectionItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.habit.modules.framework.user.model.User;
-import br.com.habit.modules.framework.user_collection.model.Song;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserCollectionRepository extends JpaRepository<Song, UUID> {
-  List<Song> findAllByUser(User user);
+@NoRepositoryBean
+public interface UserCollectionRepository<T extends UserCollectionItem>  extends JpaRepository<T, UUID> {
+  List<T> findAllByUser(User user);
 
-  Optional<Song> findByIdAndUser(UUID id, User user);
+  Optional<T> findByIdAndUser(UUID id, User user);
 }

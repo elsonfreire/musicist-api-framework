@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import br.com.habit.modules.framework.user.model.User;
 import br.com.habit.modules.framework.user_collection.exceptions.UserCollectionItemNotFoundException;
-import br.com.habit.modules.framework.user_collection.model.Song;
 import br.com.habit.modules.framework.user_collection.repository.UserCollectionRepository;
 import br.com.habit.modules.framework.user_collection.service.UserCollectionService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SongService implements UserCollectionService<SongRequest, SongResponse, LearningStatusType> {
-  private final UserCollectionRepository songRepository;
+  private final SongRepository songRepository;
 
   public Map<LearningStatusType, List<SongResponse>> findAllByUser(User user) {
     return songRepository.findAllByUser(user).stream()
