@@ -2,19 +2,16 @@ package br.com.habit.modules.framework.goals.model;
 
 import br.com.habit.modules.framework.goals.enums.GoalStatusType;
 import br.com.habit.modules.framework.shared.model.UserOwnedEntity;
+import br.com.habit.modules.framework.user.model.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "goals")
 public class Goal extends UserOwnedEntity {
   @Column(nullable = false)
@@ -38,5 +35,14 @@ public class Goal extends UserOwnedEntity {
   @PreUpdate
   public void preUpdate() {
     this.updatedAt = LocalDateTime.now();
+  }
+
+  public Goal(User user, String title) {
+    this.user = user;
+    this.title = title;
+  }
+
+  public void updateStatus(GoalStatusType newStatus) {
+    this.status = newStatus;
   }
 }
