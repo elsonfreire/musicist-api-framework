@@ -6,7 +6,5 @@ import br.com.habit.modules.framework.user.model.User;
 
 public interface PracticeStrategy {
     
-    String getDomainType(); 
-    
     Practice createPracticeEntity(PracticeRequest request, User user);
 }
