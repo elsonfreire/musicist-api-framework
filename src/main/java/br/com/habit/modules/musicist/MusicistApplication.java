@@ -9,9 +9,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan(basePackages = "br.com.habit")
-@EntityScan(basePackages = "br.com.habit")
-@EnableJpaRepositories(basePackages = "br.com.habit")
+@ComponentScan(basePackages = {"br.com.habit.infra", "br.com.habit.modules.framework", "br.com.habit.modules.musicist"})
+@EntityScan(basePackages = {"br.com.habit.infra", "br.com.habit.modules.framework", "br.com.habit.modules.musicist"})
+@EnableJpaRepositories(basePackages = {"br.com.habit.infra", "br.com.habit.modules.framework", "br.com.habit.modules.musicist"})
 public class MusicistApplication {
     public static void main(String[] args) {
         SpringApplication.run(MusicistApplication.class, args);

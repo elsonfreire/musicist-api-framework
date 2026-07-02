@@ -1,5 +1,7 @@
 package br.com.habit.modules.framework.friendship.service;
 
+import br.com.habit.modules.framework.user.service.DomainProfileMapper;
+import br.com.habit.modules.framework.user.service.UserResponseFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class FriendshipService {
   private final FriendshipRepository friendshipRepository;
 
   private final UserRepository userRepository;
+
+  private final UserResponseFactory userResponseFactory;
 
   public void sendRequest(UUID requesterId, UUID receiverId) {
     if (requesterId.equals(receiverId)) throw new IllegalArgumentException("Cannot add yourself");
@@ -65,7 +69,7 @@ public class FriendshipService {
   public List<UserResponse> getFriends(UUID userId) {
     return friendshipRepository.findAcceptedFriendships(userId).stream()
         .map(f -> f.getRequester().getId().equals(userId) ? f.getReceiver() : f.getRequester())
-        .map(UserResponse::from)
+        .map(userResponseFactory::from)
         .toList();
   }
 
@@ -73,7 +77,7 @@ public class FriendshipService {
     return friendshipRepository
         .findByReceiverIdAndStatus(userId, FriendshipStatusType.PENDING)
         .stream()
-        .map(FriendshipResponse::from)
+        .map(f -> FriendshipResponse.from(f, userResponseFactory))
         .toList();
   }
 }

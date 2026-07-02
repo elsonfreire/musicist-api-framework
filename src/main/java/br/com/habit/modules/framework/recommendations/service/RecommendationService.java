@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
+import br.com.habit.modules.framework.user.service.DomainProfileMapper;
+import br.com.habit.modules.framework.user.service.UserResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,8 @@ public class RecommendationService {
 
   private final RecommendationStrategy recommendationStrategy;
 
+  private final UserResponseFactory userResponseFactory;
+
   @Transactional(readOnly = true)
   public List<RecommendationResponse> getRecommendations(User authenticatedUser) {
     User currentUser =
@@ -42,7 +46,7 @@ public class RecommendationService {
         .map(
             candidate -> {
               int score = recommendationStrategy.calculateScore(currentUser, candidate);
-              return new RecommendationResponse(UserResponse.from(candidate), score);
+              return new RecommendationResponse(userResponseFactory.from(candidate), score);
             })
         .filter(rec -> rec.matchScore() > 0)
         .sorted(Comparator.comparing(RecommendationResponse::matchScore).reversed())

@@ -1,4 +1,4 @@
-package br.com.habit.modules.repertoire.enums;
+package br.com.habit.modules.musicist.repertoire;
 
 public enum DifficultyType {
   EASY,
