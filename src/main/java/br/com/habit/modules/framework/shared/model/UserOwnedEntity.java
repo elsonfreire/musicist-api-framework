@@ -3,6 +3,7 @@ package br.com.habit.modules.framework.shared.model;
 import br.com.habit.modules.framework.user.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;

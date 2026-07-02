@@ -53,7 +53,7 @@ public class GoalService {
     if (goal.getStatus() != GoalStatusType.PENDING) {
       throw new GoalAlreadyResolvedException();
     }
-    goal.setStatus(newStatus);
+    goal.updateStatus(newStatus);
   }
 
   private List<GoalResponse> generateGoals(User user) {
@@ -70,13 +70,7 @@ public class GoalService {
   public List<Goal> generateAndSave(User user) {
     List<Goal> goals =
         goalSuggestion.suggestGoals(user).stream()
-            .map(
-                title -> {
-                  Goal goal = new Goal();
-                  goal.setUser(user);
-                  goal.setTitle(title);
-                  return goal;
-                })
+            .map(title -> new Goal(user, title))
             .toList();
 
     return goalRepository.saveAll(goals);
