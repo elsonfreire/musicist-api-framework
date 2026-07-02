@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.UuidGenerator;
 
+import br.com.habit.modules.framework.shared.model.UserOwnedEntity;
 import br.com.habit.modules.framework.user.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,15 +30,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "practice_sessions")
 @Inheritance(strategy = InheritanceType.JOINED) 
-public class Practice { 
-    @Id
-    @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
-    private UUID id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
+public class Practice extends UserOwnedEntity { 
     @Column(nullable = false)
     private LocalDate date;
 
@@ -45,14 +38,6 @@ public class Practice {
     private Integer durationMinutes;
 
     private String notes;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-    }
 
     public Practice(Integer durationMinutes, String notes, LocalDate date, User user) {
         this.durationMinutes = durationMinutes;

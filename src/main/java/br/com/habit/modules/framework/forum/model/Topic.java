@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import br.com.habit.modules.framework.forum.enums.ForumCategoryType;
+import br.com.habit.modules.framework.shared.model.UserOwnedEntity;
 import br.com.habit.modules.framework.user.model.User;
 
 @Entity
@@ -20,11 +21,7 @@ import br.com.habit.modules.framework.user.model.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "topics")
-public class Topic {
-  @Id
-  @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
-  private UUID id;
-
+public class Topic extends UserOwnedEntity {
   @Column(nullable = false)
   private String title;
 
@@ -35,20 +32,8 @@ public class Topic {
   @Column(nullable = false)
   private String description;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false)
-  private User user;
-
-  @Column(nullable = false, updatable = false)
-  private LocalDateTime createdAt;
-
   @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments;
-
-  @PrePersist
-  public void prePersist() {
-    this.createdAt = LocalDateTime.now();
-  }
 
   public Topic(String title, ForumCategoryType category, String description, User user) {
     this.title = title;
